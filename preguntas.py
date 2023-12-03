@@ -152,7 +152,7 @@ def pregunta_01():
     En esta función se realiza la carga de datos.
     """
     # Lea el archivo `german.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("german.csv")
+    df = pd.read_csv('german.csv')
 
     # Asigne la columna `default` a la variable `y`.
     y = df['default']
@@ -205,10 +205,9 @@ def pregunta_03():
     from sklearn.preprocessing import OneHotEncoder
     from sklearn.pipeline import Pipeline
     
-    
 
     # Cargue las variables.
-    X_train, X_test, y_train, y_test  = pregunta_02()
+    X_train, _, y_train, _  = pregunta_02()
 
     # Cree un objeto ColumnTransformer que aplique OneHotEncoder a las columnas
     # tipo texto. Use make_column_selector para seleccionar las columnas. Las
@@ -216,16 +215,16 @@ def pregunta_03():
     columnTransformer = make_column_transformer(
         (
             OneHotEncoder(),
-            make_column_selector(dtype_include="object"),
+            make_column_selector(dtype_include=object),
         ),
-        remainder='pass_through',
+        remainder='passthrough',
     )
 
     # Cree un pipeline que contenga el columnTransformer y el modelo SVC.
     pipeline = Pipeline(
         steps=[
-            ("columnTransformer", columnTransformer),
-            ("SVC", SVC()),
+            ("preprocessor", columnTransformer),
+            ("classifier", SVC()),
         ],
     )
 
